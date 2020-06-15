@@ -8,9 +8,12 @@ final class NewsFeedViewController: UIViewController {
         super.viewDidLoad()
         
         let feedParser = FeedParser()
-        feedParser.parseFeed(url: "https://www.vesti.ru/vesti.rss") { items in
-            items.forEach {
-                print($0.imagePath)
+        feedParser.parseNews(url: "https://www.vesti.ru/vesti.rss") { result in
+            switch result {
+            case .success(let feeds):
+                break
+            case .failure(let error):
+                break
             }
         }
     }

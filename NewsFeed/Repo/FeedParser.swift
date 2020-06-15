@@ -3,23 +3,18 @@ import Foundation
 import Alamofire
 
 
-enum NetworkResponseStatus {
-    case success
-    case error(string: String?)
-}
-
-
 final class FeedParser: NSObject {
     
+    //MARK: - Private properties
     private var newsItems: [NewsItem] = []
-    private var currentElement: String = ""
     private var newsItem = NewsItem()
+    private var currentElement: String = ""
     
-    private var parserComrletionHandler: (([NewsItem]) -> Void)?
+    private var parserComrletionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?
     
     
     //MARK: - Open metods
-    func parseFeed(url: String, completionHandler: (([NewsItem]) -> Void)?) {
+    func parseNews(url: String, completionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?) {
         self.parserComrletionHandler = completionHandler
         
         Alamofire.request(url).responseData { response in
@@ -31,8 +26,14 @@ final class FeedParser: NSObject {
                 parser.parse()
                 
             case .failure(let error):
-                print(error.localizedDescription)
-                return
+                switch error._code {
+                case NSURLErrorTimedOut:
+                    completionHandler?(.failure(NetworkResponseError.errorTimedOut))
+                case NSURLErrorNotConnectedToInternet:
+                    completionHandler?(.failure(NetworkResponseError.notConnectedToInternet))
+                default:
+                    completionHandler?(.failure(NetworkResponseError.anotherError))
+                }
             }
         }
     }
@@ -58,14 +59,17 @@ extension FeedParser: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
     {
-        if currentElement == "item" {
-            switch currentElement {
-                case "title": newsItem.title += string
-                case "category": newsItem.category += string
-                case "yandex:full-text": newsItem.fullText += string
-                case "pubDate": newsItem.pubDate += string
-                default: break
-            }
+        switch currentElement {
+        case "title":
+            newsItem.title += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        case "category":
+            newsItem.category += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        case "yandex:full-text":
+            newsItem.fullText += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        case "pubDate":
+            newsItem.pubDate += string.getFormattedDate(currentFomat: "E, d MMM yyyy HH:mm:ss Z",
+                                                        expectedFromat: "MM.dd.yyyy HH:mm") ?? ""
+        default: break
         }
     }
     
@@ -78,10 +82,10 @@ extension FeedParser: XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        parserComrletionHandler?(newsItems)
+        parserComrletionHandler?(.success(newsItems) )
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        print(parseError.localizedDescription)
+        parserComrletionHandler?(.failure(NetworkResponseError.anotherError))
     }
 }
