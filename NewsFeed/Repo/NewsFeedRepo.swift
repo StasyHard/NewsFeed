@@ -1,8 +1,12 @@
 
 import Foundation
 
+protocol NewsFeedRepoImplementation {
+    
+}
 
-final class NewsFeedRepo {
+
+final class NewsFeedRepo: NewsFeedRepoImplementation {
     
     //MARK: - Private properties
     private let newsFeedParser = FeedParser()
