@@ -24,7 +24,9 @@ final class NewsFeedViewController: UIViewController {
     //MARK: - Private metods
     private func setupNavigation() {
         self.title = "Новости"
-        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationController?.navigationBar.largeTitleTextAttributes =
+//            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)]
     }
     
 }

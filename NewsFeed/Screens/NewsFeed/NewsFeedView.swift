@@ -5,9 +5,12 @@ import UIKit
 final class NewsFeedView: UIView {
     
     //MARK: - IBOutlet
-    @IBOutlet weak var newsFeedTableView: UITableView! {
+    @IBOutlet private weak var newsFeedTableView: UITableView! {
         didSet{
             newsFeedTableView.tableFooterView = UIView()
+            newsFeedTableView.backgroundColor = AppColors.backgroungColor
+            newsFeedTableView.separatorStyle = .none
+            registerCells()
         }
     }
     
@@ -40,5 +43,11 @@ final class NewsFeedView: UIView {
     
     //MARK: - Private metods
     private func setupUI() {
+    }
+    
+    private func registerCells() {
+        let nib = UINib(nibName: "NewsFeedCell", bundle: nil)
+        newsFeedTableView
+            .register(nib, forCellReuseIdentifier: NewsFeedCell.reuseId)
     }
 }

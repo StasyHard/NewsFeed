@@ -61,11 +61,12 @@ extension FeedParser: XMLParserDelegate {
     {
         switch currentElement {
         case "title":
-            newsItem.title += string.trimmingCharacters(in: .whitespacesAndNewlines)
+            newsItem.title += string.trimmingCharacters(in: .whitespaces)
+            //newsItem.title = String(newsItem.title.dropLast())
         case "category":
             newsItem.category += string.trimmingCharacters(in: .whitespacesAndNewlines)
         case "yandex:full-text":
-            newsItem.fullText += string.trimmingCharacters(in: .whitespacesAndNewlines)
+            newsItem.fullText += string.trimmingCharacters(in: .whitespaces)
         case "pubDate":
             newsItem.pubDate += string.getFormattedDate(currentFomat: "E, d MMM yyyy HH:mm:ss Z",
                                                         expectedFromat: "MM.dd.yyyy HH:mm") ?? ""

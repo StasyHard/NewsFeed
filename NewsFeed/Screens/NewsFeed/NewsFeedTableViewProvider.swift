@@ -26,14 +26,22 @@ final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let state = tableViewState
-        else { return  UITableViewCell() }
+            else { return UITableViewCell() }
         
         switch state {
         case .success(value: let news):
-            let cell = UITableViewCell()
-            let newsItem = news[indexPath.row]
-            cell.textLabel?.text = newsItem.title
-            return cell
+            if let cell = tableView
+                .dequeueReusableCell(withIdentifier: NewsFeedCell.reuseId,
+                                     for: indexPath) as? NewsFeedCell
+            {
+                let newsItem = news[indexPath.row]
+                print(newsItem.title)
+                cell.titleNewsLabel.text = newsItem.title
+                cell.categoryLabel.text = newsItem.category
+                cell.pubDateLabel.text = newsItem.pubDate
+                return cell
+            }
+            return UITableViewCell()
         default:
             return UITableViewCell()
         }
