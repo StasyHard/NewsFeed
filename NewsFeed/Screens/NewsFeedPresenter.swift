@@ -3,16 +3,17 @@ import Foundation
 
 
 protocol NewsFeedViewEmplementation: class {
-    
+    func showContent(forState state: TableViewState)
 }
 
 protocol NewsFeedViewActions: class {
-    
+    func viewDidLoad()
 }
+
 
 final class NewsFeedPresenter {
     
-        //MARK: - Private properties
+    //MARK: - Private properties
     private var view: NewsFeedViewEmplementation?
     private let newsFeedRepo: NewsFeedRepoImplementation
     
@@ -27,4 +28,19 @@ final class NewsFeedPresenter {
 
 extension NewsFeedPresenter: NewsFeedViewActions {
     
+    func viewDidLoad() {
+        newsFeedRepo.getNewsFeed { [weak self] result in
+            
+            guard let `self` = self
+                else { return }
+            
+            switch result {
+            case .success(let news):
+                self.view?.showContent(forState: .success(value: news))
+                break
+            case .failure(let error):
+                self.view?.showContent(forState: .failed(state: error))
+            }
+        }
+    }
 }

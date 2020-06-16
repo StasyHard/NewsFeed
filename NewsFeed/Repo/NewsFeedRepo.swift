@@ -2,7 +2,7 @@
 import Foundation
 
 protocol NewsFeedRepoImplementation {
-    
+    func getNewsFeed(complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void)
 }
 
 
