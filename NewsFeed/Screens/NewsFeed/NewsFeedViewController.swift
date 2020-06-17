@@ -9,7 +9,8 @@ final class NewsFeedViewController: UIViewController {
     
     
     //MARK: - Private properties
-   private lazy var newsFeedView = view as? NewsFeedView
+    private lazy var newsFeedView = view as? NewsFeedView
+    private var filtersView: FiltersView?
     
     
     //MARK: - Life cycle
@@ -17,26 +18,58 @@ final class NewsFeedViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavigation()
-        actionDelegate?.viewDidLoad()
+        
+        if let actionDelegate = actionDelegate {
+            newsFeedView?.setActionDelegate(delegate: actionDelegate)
+            actionDelegate.viewDidLoad()
+        }
     }
     
     
     //MARK: - Private metods
     private func setupNavigation() {
-        self.title = "Новости"
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationController?.navigationBar.largeTitleTextAttributes =
-//            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)]
+        navigationItem.title = "Новости"
+        
+        let defaultImage = UIImage(named: "filter")?
+            .scaleTo(CGSize(width: 25,
+                            height: 25))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: defaultImage,
+            style: .plain,
+            target: self,
+            action: #selector(filterButtonTapped))
     }
     
+    @objc func filterButtonTapped() {
+        actionDelegate?.filtersButtonTapped()
+    }
 }
 
 
-extension NewsFeedViewController: NewsFeedViewEmplementation {
+
+//MARK: - NewsFeedViewEmplementation
+extension NewsFeedViewController: NewsFeedViewEmpl {
+    
+    func hideFiltres() {
+        filtersView?.hideFiltres()
+    }
+    
+    
+    func showFilters(selectedFilter filter: String?, filters: [String]) {
+        filtersView = FiltersView(frame: self.view.frame, actionDelegate: actionDelegate)
+        filtersView?.showFilters(selectedFilter: filter, filters: filters)
+        
+    }
     
     func showContent(forState state: TableViewState) {
         newsFeedView?.setNewsFeedTableViewState(state)
     }
-    
-    
 }
+
+
+
+
+
+
+

@@ -16,6 +16,7 @@ final class NewsFeedView: UIView {
     
     
     //MARK: - Private properties
+    private var actionsDelegate: NewsFeedViewActions?
     private lazy var contentTableViewProvider: NewsFeedTableViewProvider = {
         let provider = NewsFeedTableViewProvider()
         newsFeedTableView.delegate = provider
@@ -25,8 +26,10 @@ final class NewsFeedView: UIView {
     
     
     //MARK: - Init
-    override init(frame: CGRect) {
+    init(frame: CGRect, actionsDelegate: NewsFeedViewActions) {
+        self.actionsDelegate = actionsDelegate
         super.init(frame: frame)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +41,11 @@ final class NewsFeedView: UIView {
     func setNewsFeedTableViewState(_ state: TableViewState) {
         contentTableViewProvider.tableViewState = state
         newsFeedTableView.reloadData()
+    }
+    
+    func setActionDelegate(delegate: NewsFeedViewActions) {
+        self.actionsDelegate = delegate
+        //contentTableViewProvider.setActionDelegate
     }
     
     

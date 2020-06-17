@@ -1,8 +1,6 @@
 
 import UIKit
 
-protocol TableViewProvider: UITableViewDelegate, UITableViewDataSource { }
-
 
 final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
     
@@ -35,7 +33,6 @@ final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
                                      for: indexPath) as? NewsFeedCell
             {
                 let newsItem = news[indexPath.row]
-                print(newsItem.title)
                 cell.titleNewsLabel.text = newsItem.title
                 cell.categoryLabel.text = newsItem.category
                 cell.pubDateLabel.text = newsItem.pubDate

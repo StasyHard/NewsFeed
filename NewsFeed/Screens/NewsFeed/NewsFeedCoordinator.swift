@@ -2,6 +2,11 @@
 import UIKit
 
 
+protocol NewsFeedImpl {
+    func filtersDidTapped()
+}
+
+
 final class NewsFeedCoordinator: BaseCoordirator {
     
     //MARK: - Private properties
@@ -21,9 +26,17 @@ final class NewsFeedCoordinator: BaseCoordirator {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(
             withIdentifier: "NewsFeedViewController") as! NewsFeedViewController
-        let presenter = NewsFeedPresenter(view: vc, repo: newsFeedRepo)
+        let presenter = NewsFeedPresenter(view: vc, repo: newsFeedRepo, coordinator: self)
         vc.actionDelegate = presenter
         
         navController.pushViewController(vc, animated: true)
     }
+}
+
+
+extension NewsFeedCoordinator: NewsFeedImpl {
+    func filtersDidTapped() {
+    }
+    
+    
 }

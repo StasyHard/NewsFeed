@@ -7,7 +7,7 @@ class NewsFeedCell: UITableViewCell, ReusableView {
     //MARK: - IBOutlet
     @IBOutlet var containerView: UIView! {
         didSet {
-            containerView.layer.cornerRadius = 10
+            containerView.layer.cornerRadius = 5
             containerView.clipsToBounds = true
             containerView.dropShadow()
         }

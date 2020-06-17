@@ -17,6 +17,9 @@ final class FeedParser: NSObject {
     func parseNews(url: String, completionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?) {
         self.parserComrletionHandler = completionHandler
         
+        let urlRequest = URLRequest(url: URL(string: url)!)
+        URLCache.shared.removeCachedResponse(for: urlRequest)
+        
         Alamofire.request(url).responseData { response in
             switch response.result {
                 
@@ -62,7 +65,6 @@ extension FeedParser: XMLParserDelegate {
         switch currentElement {
         case "title":
             newsItem.title += string.trimmingCharacters(in: .whitespaces)
-            //newsItem.title = String(newsItem.title.dropLast())
         case "category":
             newsItem.category += string.trimmingCharacters(in: .whitespacesAndNewlines)
         case "yandex:full-text":
