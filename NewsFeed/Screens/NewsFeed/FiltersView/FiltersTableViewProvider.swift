@@ -8,14 +8,14 @@ protocol FiltersTableViewProviderImpl {
 }
 
 
-final class FiltersTableViewProvider: NSObject, TableViewProvider {
+final class FiltersTableViewProvider: NSObject {
     
     enum FiltersSection: CaseIterable {
         case all
         case filter
     }
     
-    //MARK: - Open properties
+    //MARK: - Private properties
     private var actionsDelegate: NewsFeedViewActions?
     
     private var filters: [String]?
@@ -32,9 +32,35 @@ final class FiltersTableViewProvider: NSObject, TableViewProvider {
             return nil
         }
     }
+}
+
+
+
+ //MARK: - FiltersTableViewProviderImpl
+extension FiltersTableViewProvider: FiltersTableViewProviderImpl {
+   
+    func setActionDelegate(delegate: NewsFeedViewActions?) {
+        self.actionsDelegate = delegate
+    }
     
+    func setFilters(selectedFilter filter: String?, filters: [String]) {
+        self.filters = filters
+        
+        if
+            let filter = filter,
+            let row = filters.firstIndex(of: filter) {
+            selectedIndexPath = IndexPath(row: row, section: 1)
+        }
+        else {
+            selectedIndexPath = IndexPath(row: 0, section: 0)
+        }
+    }
+}
+
+
+//MARK: - UITableViewDelegate and UITableViewDataSourse
+extension FiltersTableViewProvider: TableViewProvider {
     
-    //MARK: - TableViewProvider
     func numberOfSections(in tableView: UITableView) -> Int {
         return FiltersSection.allCases.count
     }
@@ -75,30 +101,6 @@ final class FiltersTableViewProvider: NSObject, TableViewProvider {
         selectedIndexPath = indexPath
         tableView.reloadRows(at: [oldSelectIndexPath!, selectedIndexPath!], with: .automatic)
         actionsDelegate?.wasSelectedFilter(filter: getSelectedFilter())
-    }
-}
-
-
-
-extension FiltersTableViewProvider: FiltersTableViewProviderImpl {
-    
-    func setActionDelegate(delegate: NewsFeedViewActions?) {
-        self.actionsDelegate = delegate
-    }
-    
-    
-    //MARK: - Open metods
-    func setFilters(selectedFilter filter: String?, filters: [String]) {
-        self.filters = filters
-        
-        if
-            let filter = filter,
-            let row = filters.firstIndex(of: filter) {
-            selectedIndexPath = IndexPath(row: row, section: 1)
-        }
-        else {
-            selectedIndexPath = IndexPath(row: 0, section: 0)
-        }
     }
     
 }

@@ -2,13 +2,25 @@
 import UIKit
 
 
-final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
+protocol NewsFeedTableViewProviderImpl {
+    var tableViewState: TableViewState? { get set }
+    var actionDelegate: NewsFeedViewActions? { get set }
+}
+
+
+final class NewsFeedTableViewProvider: NSObject, NewsFeedTableViewProviderImpl {
     
     //MARK: - Open properties
     var tableViewState: TableViewState?
+    var actionDelegate: NewsFeedViewActions?
     
+}
+
+
+
+//MARK: - UITableViewDelegate and UITableViewDataSourse
+extension NewsFeedTableViewProvider: TableViewProvider {
     
-    //MARK: - TableViewProvider metods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let state = tableViewState
             else { return 0 }
@@ -37,11 +49,24 @@ final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
                 cell.titleNewsLabel.text = newsItem.title
                 cell.categoryLabel.text = newsItem.category
                 cell.pubDateLabel.text = newsItem.pubDate
+                
                 return cell
             }
             return UITableViewCell()
         default:
             return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let state = tableViewState
+            else { return }
+        
+        switch state {
+        case .success(value: let news):
+            let newsItem = news[indexPath.row]
+            actionDelegate?.wasSelectedNews(news: newsItem)
+        default: break
         }
     }
 }

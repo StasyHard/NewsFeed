@@ -10,6 +10,7 @@ final class NewsFeedView: UIView {
             newsFeedTableView.tableFooterView = UIView()
             newsFeedTableView.backgroundColor = AppColors.backgroungColor
             newsFeedTableView.separatorStyle = .none
+            newsFeedTableView.refreshControl = refreshControl
             registerCells()
         }
     }
@@ -17,40 +18,39 @@ final class NewsFeedView: UIView {
     
     //MARK: - Private properties
     private var actionsDelegate: NewsFeedViewActions?
-    private lazy var contentTableViewProvider: NewsFeedTableViewProvider = {
+    private lazy var contentTableViewProvider: NewsFeedTableViewProviderImpl = {
         let provider = NewsFeedTableViewProvider()
         newsFeedTableView.delegate = provider
         newsFeedTableView.dataSource = provider
         return provider
     }()
     
-    
-    //MARK: - Init
-    init(frame: CGRect, actionsDelegate: NewsFeedViewActions) {
-        self.actionsDelegate = actionsDelegate
-        super.init(frame: frame)
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    private let refreshControl: UIRefreshControl = {
+       let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refresh
+    }()
     
     
     //MARK: - Open metods
     func setNewsFeedTableViewState(_ state: TableViewState) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
         contentTableViewProvider.tableViewState = state
         newsFeedTableView.reloadData()
     }
     
     func setActionDelegate(delegate: NewsFeedViewActions) {
         self.actionsDelegate = delegate
-        //contentTableViewProvider.setActionDelegate
+        contentTableViewProvider.actionDelegate = delegate
     }
     
     
     //MARK: - Private metods
-    private func setupUI() {
+    @objc func refresh(sender: UIRefreshControl) {
+        actionsDelegate?.reloadData()
+        //sender.endRefreshing()
     }
     
     private func registerCells() {

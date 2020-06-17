@@ -10,8 +10,10 @@ protocol NewsFeedViewEmpl: class {
 
 protocol NewsFeedViewActions: class {
     func viewDidLoad()
+    func reloadData()
     func filtersButtonTapped()
     func wasSelectedFilter(filter: String?)
+    func wasSelectedNews(news: NewsItem)
 }
 
 
@@ -19,13 +21,13 @@ final class NewsFeedPresenter {
     
     //MARK: - Private properties
     private let view: NewsFeedViewEmpl
-    private let coordinator: NewsFeedImpl
+    private let coordinator: NewsFeedСoordination
     private let newsFeedRepo: NewsFeedRepoImplementation
     
     private var filter: String?
     
     //MARK: - Init
-    init(view: NewsFeedViewEmpl, repo: NewsFeedRepoImplementation, coordinator: NewsFeedImpl) {
+    init(view: NewsFeedViewEmpl, repo: NewsFeedRepoImplementation, coordinator: NewsFeedСoordination) {
         self.view = view
         self.newsFeedRepo = repo
         self.coordinator = coordinator
@@ -36,6 +38,16 @@ final class NewsFeedPresenter {
 
 //MARK: - NewsFeedViewActions
 extension NewsFeedPresenter: NewsFeedViewActions {
+    
+    func viewDidLoad() {
+        view.showContent(forState: .loading)
+        getNewsFromRepo(withFilter: self.filter)
+    }
+    
+    func reloadData() {
+        getNewsFromRepo(withFilter: self.filter)
+    }
+    
     func filtersButtonTapped() {
         newsFeedRepo.getCategories { [weak self] categories in
             self?.view.showFilters(selectedFilter: self?.filter,
@@ -44,17 +56,17 @@ extension NewsFeedPresenter: NewsFeedViewActions {
     }
     
     func wasSelectedFilter(filter: String?) {
-        self.filter = filter
-        
         view.hideFiltres()
-        view.showContent(forState: .loading)
-        getNewsFromRepo(withFilter: filter)
+        
+        if filter != self.filter {
+            self.filter = filter
+            view.showContent(forState: .loading)
+            getNewsFromRepo(withFilter: filter)
+        }
     }
     
-    
-    func viewDidLoad() {
-        view.showContent(forState: .loading)
-        getNewsFromRepo(withFilter: self.filter)
+    func wasSelectedNews(news: NewsItem) {
+        coordinator.showDetails(forNews: news)
     }
     
     

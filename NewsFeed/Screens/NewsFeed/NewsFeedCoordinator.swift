@@ -2,8 +2,8 @@
 import UIKit
 
 
-protocol NewsFeedImpl {
-    func filtersDidTapped()
+protocol NewsFeedСoordination {
+    func showDetails(forNews news: NewsItem)
 }
 
 
@@ -34,9 +34,10 @@ final class NewsFeedCoordinator: BaseCoordirator {
 }
 
 
-extension NewsFeedCoordinator: NewsFeedImpl {
-    func filtersDidTapped() {
+extension NewsFeedCoordinator: NewsFeedСoordination {
+    func showDetails(forNews news: NewsItem) {
+        let detailsCoordinator = DetailsNewsCoordinator(navController: navController, news: news)
+        detailsCoordinator.parentCoordinator = self
+        detailsCoordinator.start()
     }
-    
-    
 }

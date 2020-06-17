@@ -22,25 +22,19 @@ extension NewsFeedRepo: NewsFeedRepoImplementation {
     //MARK: - NewsFeedRepoImplementation
     func getNewsFeed(withFilter filter: String?, complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void)
     {
-        if cachedNews.isEmpty {
-            newsFeedParser.parseNews(url: newsFeedPath) { [weak self] result in
-                
-                guard let `self` = self
-                    else { return }
-                
-                switch result {
-                case .success(let data):
-                    self.cachedNews = data
-                    let filteredData = self.filterData(filter: filter, data: data)
-                    complitionHandler(.success(filteredData))
-                case .failure(let error):
-                    complitionHandler(.failure(error))
-                }
+        newsFeedParser.parseNews(url: newsFeedPath) { [weak self] result in
+            
+            guard let `self` = self
+                else { return }
+            
+            switch result {
+            case .success(let data):
+                self.cachedNews = data
+                let filteredData = self.filterData(filter: filter, data: data)
+                complitionHandler(.success(filteredData))
+            case .failure(let error):
+                complitionHandler(.failure(error))
             }
-        }
-        else {
-            let filteredData = filterData(filter: filter, data: cachedNews)
-            complitionHandler(.success(filteredData))
         }
     }
     

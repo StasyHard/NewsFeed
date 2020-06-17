@@ -26,6 +26,7 @@ final class AppCoordinator: BaseCoordirator {
     
     private func showNewsFeed() {
         let newsFeedCoordinator = NewsFeedCoordinator(navController: navController)
+        newsFeedCoordinator.parentCoordinator = self
         newsFeedCoordinator.start()
     }
 }
