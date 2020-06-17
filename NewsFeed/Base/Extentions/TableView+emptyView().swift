@@ -10,8 +10,11 @@ extension UITableView {
                                            width: self.bounds.size.width,
                                            height: self.bounds.size.height))
         view.setViewWithState(state)
-        
         self.backgroundView = view
+    }
+    
+    func removeEmptyView() {
+        self.backgroundView = nil
     }
     
 }

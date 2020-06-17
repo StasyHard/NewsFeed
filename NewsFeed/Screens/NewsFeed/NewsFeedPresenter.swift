@@ -45,12 +45,23 @@ extension NewsFeedPresenter: NewsFeedViewActions {
     
     func wasSelectedFilter(filter: String?) {
         self.filter = filter
+        
         view.hideFiltres()
+        view.showContent(forState: .loading)
+        getNewsFromRepo(withFilter: filter)
     }
     
     
     func viewDidLoad() {
-        newsFeedRepo.getNewsFeed { [weak self] result in
+        view.showContent(forState: .loading)
+        getNewsFromRepo(withFilter: self.filter)
+    }
+    
+    
+    //MARK: - Private metods
+    private func getNewsFromRepo(withFilter filter: String?) {
+        
+        newsFeedRepo.getNewsFeed(withFilter: filter) { [weak self] result in
             
             guard let `self` = self
                 else { return }
@@ -58,7 +69,6 @@ extension NewsFeedPresenter: NewsFeedViewActions {
             switch result {
             case .success(let news):
                 self.view.showContent(forState: .success(value: news))
-                break
             case .failure(let error):
                 self.view.showContent(forState: .failed(state: error))
             }

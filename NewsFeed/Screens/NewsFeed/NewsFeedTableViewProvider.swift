@@ -18,6 +18,7 @@ final class NewsFeedTableViewProvider: NSObject, TableViewProvider {
             tableView.setEmptyView(forState: state)
             return 0
         case .success(value: let news):
+            tableView.removeEmptyView()
             return news.count
         }
     }

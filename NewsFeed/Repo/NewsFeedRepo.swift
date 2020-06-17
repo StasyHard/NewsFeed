@@ -1,15 +1,10 @@
 
 import Foundation
 
+
 protocol NewsFeedRepoImplementation {
     func getNewsFeed(withFilter filter: String?, complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void)
     func getCategories(complitionHandler: @escaping ([String]) -> Void)
-}
-
-extension NewsFeedRepoImplementation {
-    func getNewsFeed(withFilter filter: String? = nil, complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void) {
-        return getNewsFeed(withFilter: filter, complitionHandler: complitionHandler)
-    }
 }
 
 
@@ -25,17 +20,27 @@ final class NewsFeedRepo {
 extension NewsFeedRepo: NewsFeedRepoImplementation {
     
     //MARK: - NewsFeedRepoImplementation
-    func getNewsFeed(withFilter: String?, complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void)
+    func getNewsFeed(withFilter filter: String?, complitionHandler: @escaping (Result<[NewsItem], NetworkResponseError>) -> Void)
     {
-        //фильтровать новости
-        newsFeedParser.parseNews(url: newsFeedPath) { [weak self] result in
-            switch result {
-            case .success(let data):
-                complitionHandler(.success(data))
-                self?.cachedNews = data
-            case .failure(let error):
-                complitionHandler(.failure(error))
+        if cachedNews.isEmpty {
+            newsFeedParser.parseNews(url: newsFeedPath) { [weak self] result in
+                
+                guard let `self` = self
+                    else { return }
+                
+                switch result {
+                case .success(let data):
+                    self.cachedNews = data
+                    let filteredData = self.filterData(filter: filter, data: data)
+                    complitionHandler(.success(filteredData))
+                case .failure(let error):
+                    complitionHandler(.failure(error))
+                }
             }
+        }
+        else {
+            let filteredData = filterData(filter: filter, data: cachedNews)
+            complitionHandler(.success(filteredData))
         }
     }
     
@@ -43,5 +48,14 @@ extension NewsFeedRepo: NewsFeedRepoImplementation {
         let category = Set(cachedNews.map { $0.category })
         let sortedCategory = Array(category).sorted { $0 < $1 }
         complitionHandler(sortedCategory)
+    }
+    
+    
+    //MARK: - Private metods
+    private func filterData(filter: String?, data: [NewsItem]) -> [NewsItem] {
+        if filter != nil {
+            return data.filter { $0.category == filter }
+        }
+        return data
     }
 }
