@@ -2,7 +2,7 @@
 import Foundation
 
 
-protocol NewsFeedViewEmpl: class {
+protocol NewsFeedViewControllerEmpl: class {
     func showContent(forState state: TableViewState)
     func showFilters(selectedFilter filter: String?, filters: [String])
     func hideFiltres()
@@ -20,14 +20,14 @@ protocol NewsFeedViewActions: class {
 final class NewsFeedPresenter {
     
     //MARK: - Private properties
-    private let view: NewsFeedViewEmpl
+    private let view: NewsFeedViewControllerEmpl
     private let coordinator: NewsFeedСoordination
     private let newsFeedRepo: NewsFeedRepoImplementation
     
     private var filter: String?
     
     //MARK: - Init
-    init(view: NewsFeedViewEmpl, repo: NewsFeedRepoImplementation, coordinator: NewsFeedСoordination) {
+    init(view: NewsFeedViewControllerEmpl, repo: NewsFeedRepoImplementation, coordinator: NewsFeedСoordination) {
         self.view = view
         self.newsFeedRepo = repo
         self.coordinator = coordinator

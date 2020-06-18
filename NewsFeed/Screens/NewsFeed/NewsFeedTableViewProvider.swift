@@ -49,6 +49,9 @@ extension NewsFeedTableViewProvider: TableViewProvider {
                 cell.titleNewsLabel.text = newsItem.title
                 cell.categoryLabel.text = newsItem.category
                 cell.pubDateLabel.text = newsItem.pubDate
+                if newsItem.imagePath == nil {
+                    print("ffffff")
+                }
                 
                 return cell
             }

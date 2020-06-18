@@ -49,7 +49,7 @@ final class NewsFeedViewController: UIViewController {
 
 
 //MARK: - NewsFeedViewEmplementation
-extension NewsFeedViewController: NewsFeedViewEmpl {
+extension NewsFeedViewController: NewsFeedViewControllerEmpl {
     
     func hideFiltres() {
         filtersView?.hideFiltres()

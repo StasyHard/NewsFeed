@@ -8,20 +8,19 @@ class DetailsNewsViewController: UIViewController {
     var actionDelegate: DetailsNewsPresenter?
     
     
-    //MARK: - Life cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-    }
-    
-    
-    
+    //MARK: - Private properties
+    private lazy var detailsNewslView = view as? DetailsNewsView
     
 }
 
 
+
 //MARK: - DetailsNewsViewEmpl
 extension DetailsNewsViewController: DetailsNewsViewEmpl {
+    
+    func showNews(_ news: NewsItem) {
+        detailsNewslView?.showNews(news)
+    }
+    
     
 }

@@ -2,7 +2,7 @@
 import Foundation
 
 protocol DetailsNewsViewEmpl: class {
-    
+    func showNews(_ news: NewsItem)
 }
 
 protocol DetailsNewsViewActions: class {
@@ -17,8 +17,9 @@ final class DetailsNewsPresenter {
     
     
     //MARK: - Init
-    init(view: DetailsNewsViewEmpl) {
+    init(view: DetailsNewsViewEmpl, news: NewsItem) {
         self.view = view
+        view.showNews(news)
     }
 }
 

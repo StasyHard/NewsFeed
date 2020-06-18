@@ -21,7 +21,7 @@ final class DetailsNewsCoordinator: BaseCoordirator {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(
             withIdentifier: "DetailsNewsViewController") as! DetailsNewsViewController
-        let presenter = DetailsNewsPresenter(view: vc)
+        let presenter = DetailsNewsPresenter(view: vc, news: news)
         vc.actionDelegate = presenter
         
         navController.pushViewController(vc, animated: true)
