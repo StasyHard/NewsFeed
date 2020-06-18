@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FiltersView" customModule="NewsFeed" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundView" destination="Lqz-9R-mNa" id="O86-kD-Ovm"/>
                 <outlet property="containerView" destination="iN0-l3-epB" id="VdF-BF-OgQ"/>
                 <outlet property="contentView" destination="zwi-eQ-QZi" id="vGj-B3-s6X"/>
                 <outlet property="filtersTableView" destination="Mma-Me-tdT" id="ZGg-vI-pVY"/>
@@ -19,6 +20,10 @@
             <rect key="frame" x="0.0" y="0.0" width="416" height="728"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lqz-9R-mNa">
+                    <rect key="frame" x="0.0" y="0.0" width="416" height="728"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zwi-eQ-QZi">
                     <rect key="frame" x="0.0" y="218.5" width="416" height="509.5"/>
                     <subviews>
@@ -54,11 +59,15 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="Lqz-9R-mNa" secondAttribute="bottom" id="67Z-cC-Xri"/>
                 <constraint firstItem="zwi-eQ-QZi" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.7" id="93n-Ne-vaD"/>
                 <constraint firstAttribute="bottom" secondItem="zwi-eQ-QZi" secondAttribute="bottom" id="CZp-Uy-8JZ"/>
                 <constraint firstAttribute="trailing" secondItem="zwi-eQ-QZi" secondAttribute="trailing" id="JfW-YL-zX0"/>
+                <constraint firstItem="Lqz-9R-mNa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TB7-va-oxu"/>
+                <constraint firstItem="Lqz-9R-mNa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UpZ-fC-lfU"/>
+                <constraint firstAttribute="trailing" secondItem="Lqz-9R-mNa" secondAttribute="trailing" id="its-y2-PJZ"/>
                 <constraint firstItem="zwi-eQ-QZi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="t3g-Jg-zeX"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

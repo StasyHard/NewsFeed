@@ -5,6 +5,7 @@ import UIKit
 final class FiltersView: UIView {
     
     @IBOutlet private var containerView: UIView!
+    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet private weak var filtersTableView: UITableView! {
         didSet {
@@ -85,7 +86,7 @@ final class FiltersView: UIView {
     }
     
     private func animateAppearance() {
-        containerView.alpha = 0
+        backgroundView.alpha = 0
         contentView.frame = CGRect(x: 0,
                                    y: containerView.bounds.height,
                                    width: contentView.bounds.width,
@@ -97,27 +98,27 @@ final class FiltersView: UIView {
                        initialSpringVelocity: 1.0,
                        options: .curveEaseInOut,
                        animations: {
-                        self.containerView.alpha = 1
+                        self.backgroundView.alpha = 1
                         self.contentView.frame = CGRect(x: 0,
                                                         y: self.containerView.bounds.height - self.contentView.bounds.height,
                                                         width: self.contentView.bounds.width,
-                                                        height: self.contentView.bounds.width)
+                                                        height: self.contentView.bounds.height)
         },
                        completion: nil)
     }
     
     private func animateСlosed() {
-        UIView.animate(withDuration: 5,
+        UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 1.0,
                        initialSpringVelocity: 1.0,
                        options: .curveEaseInOut,
                        animations: {
-                        self.containerView.alpha = 0
+                        self.backgroundView.alpha = 0
                         self.contentView.frame = CGRect(x: 0,
                                                         y: self.containerView.bounds.height,
                                                         width: self.contentView.bounds.width,
-                                                        height: self.contentView.bounds.width)
+                                                        height: self.contentView.bounds.height)
         },
                        completion: { _ in
                         self.removeFiltersView()
@@ -142,7 +143,7 @@ extension FiltersView: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if let touchedView = touch.view,
-            touchedView != containerView {
+            touchedView != backgroundView {
             return false
         }
         return true
