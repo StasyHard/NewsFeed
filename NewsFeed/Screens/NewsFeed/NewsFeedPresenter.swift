@@ -80,6 +80,11 @@ extension NewsFeedPresenter: NewsFeedViewActions {
             
             switch result {
             case .success(let news):
+                news.forEach {
+                    if $0.imagePath == nil {
+                        print("")
+                    }
+                }
                 self.view.showContent(forState: .success(value: news))
             case .failure(let error):
                 self.view.showContent(forState: .failed(state: error))

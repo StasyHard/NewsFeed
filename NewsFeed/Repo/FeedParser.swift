@@ -68,7 +68,7 @@ extension FeedParser: XMLParserDelegate {
         case "category":
             newsItem.category += string.trimmingCharacters(in: .whitespacesAndNewlines)
         case "yandex:full-text":
-            newsItem.fullText += string//.trimmingCharacters(in: .whitespaces)
+            newsItem.fullText += string.trimmingCharacters(in: .newlines)
         case "pubDate":
             newsItem.pubDate += string.getFormattedDate(currentFomat: "E, d MMM yyyy HH:mm:ss Z",
                                                         expectedFromat: "MM.dd.yyyy HH:mm") ?? ""

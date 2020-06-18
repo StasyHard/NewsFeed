@@ -17,25 +17,25 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Siy-xo-9KS">
-                        <rect key="frame" x="5" y="5" width="457" height="78"/>
+                        <rect key="frame" x="0.0" y="5" width="467" height="78"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заголовок" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGo-Nh-1Fn">
-                                <rect key="frame" x="16" y="8" width="425" height="28"/>
+                                <rect key="frame" x="16" y="8" width="435" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TYe-I1-yV5">
-                                <rect key="frame" x="16" y="44" width="425" height="18"/>
+                                <rect key="frame" x="16" y="44" width="435" height="18"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Категория" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QW2-5i-EPO">
-                                        <rect key="frame" x="0.0" y="0.0" width="261" height="18"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="267" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Время" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9t-3U-c1j">
-                                        <rect key="frame" x="269" y="0.0" width="156" height="18"/>
+                                        <rect key="frame" x="275" y="0.0" width="160" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -56,9 +56,9 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Siy-xo-9KS" firstAttribute="leading" secondItem="blq-dc-jos" secondAttribute="leading" constant="5" id="PTG-RV-8yB"/>
+                    <constraint firstItem="Siy-xo-9KS" firstAttribute="leading" secondItem="blq-dc-jos" secondAttribute="leading" id="PTG-RV-8yB"/>
                     <constraint firstAttribute="bottom" secondItem="Siy-xo-9KS" secondAttribute="bottom" constant="5" id="Pxd-TZ-NXK"/>
-                    <constraint firstAttribute="trailing" secondItem="Siy-xo-9KS" secondAttribute="trailing" constant="5" id="Zge-P0-HS2"/>
+                    <constraint firstAttribute="trailing" secondItem="Siy-xo-9KS" secondAttribute="trailing" id="Zge-P0-HS2"/>
                     <constraint firstItem="Siy-xo-9KS" firstAttribute="top" secondItem="blq-dc-jos" secondAttribute="top" constant="5" id="bOp-A5-I9g"/>
                 </constraints>
             </tableViewCellContentView>
