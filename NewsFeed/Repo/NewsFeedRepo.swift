@@ -31,9 +31,9 @@ extension NewsFeedRepo: NewsFeedRepoImpl {
             
             switch result {
             case .success(let data):
-                self.cachedNews = data
-                let filteredData = self.filterData(filter: filter, data: data)
-                complitionHandler(.success(filteredData))
+                    self.cachedNews = data
+                    let filteredData = self.filterData(filter: filter, data: data)
+                    complitionHandler(.success(filteredData))
             case .failure(let error):
                 complitionHandler(.failure(error))
             }
@@ -55,3 +55,4 @@ extension NewsFeedRepo: NewsFeedRepoImpl {
         return data
     }
 }
+

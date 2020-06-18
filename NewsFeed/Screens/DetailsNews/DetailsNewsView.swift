@@ -1,6 +1,5 @@
 
 import UIKit
-import Kingfisher
 
 
 class DetailsNewsView: UIView {
@@ -26,7 +25,7 @@ class DetailsNewsView: UIView {
     //MARK: - Open metods
     func showNews(_ news: NewsItem) {
         
-        guard let image = news.imagePath
+        guard let path = news.imagePath
             else {
                 newsImageView.isHidden = true
                 titleTopConstraint.isActive = false
@@ -34,21 +33,11 @@ class DetailsNewsView: UIView {
                                                     constant: 16).isActive = true
                 return
         }
-        
-        let url = URL(string: image)
-        let processor = DownsamplingImageProcessor(size: newsImageView.bounds.size)
-        newsImageView.kf.indicatorType = .activity
-        newsImageView.kf.setImage(
-            with: url,
-            placeholder: UIImage(named: "placeholder"),
-            options: [
-                .processor(processor),
-                .transition(.fade(0.1)),
-                .cacheOriginalImage
-            ])
+        if let url = URL(string: path) {
+            newsImageView.load(url: url)
+        }
         newsTitleLabel.text = news.title
         newsFullTextView.text = news.fullText
     }
-    
     
 }
