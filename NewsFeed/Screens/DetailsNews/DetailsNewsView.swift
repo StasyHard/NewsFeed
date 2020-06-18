@@ -1,5 +1,6 @@
 
 import UIKit
+import Kingfisher
 
 
 class DetailsNewsView: UIView {
@@ -8,7 +9,7 @@ class DetailsNewsView: UIView {
     @IBOutlet weak var containertView: UIView!
     @IBOutlet weak var newsImageView: UIImageView! {
         didSet {
-            newsImageView.layer.cornerRadius = 5
+            newsImageView.layer.cornerRadius = 10
             newsImageView.clipsToBounds = true
         }
     }
@@ -24,6 +25,7 @@ class DetailsNewsView: UIView {
     
     //MARK: - Open metods
     func showNews(_ news: NewsItem) {
+        
         guard let image = news.imagePath
             else {
                 newsImageView.isHidden = true
@@ -32,7 +34,18 @@ class DetailsNewsView: UIView {
                                                     constant: 16).isActive = true
                 return
         }
-        newsImageView.load(url: URL(string: image)!)
+        
+        let url = URL(string: image)
+        let processor = DownsamplingImageProcessor(size: newsImageView.bounds.size)
+        newsImageView.kf.indicatorType = .activity
+        newsImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder"),
+            options: [
+                .processor(processor),
+                .transition(.fade(0.1)),
+                .cacheOriginalImage
+            ])
         newsTitleLabel.text = news.title
         newsFullTextView.text = news.fullText
     }

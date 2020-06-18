@@ -22,12 +22,12 @@ final class NewsFeedPresenter {
     //MARK: - Private properties
     private let view: NewsFeedViewControllerEmpl
     private let coordinator: NewsFeedСoordination
-    private let newsFeedRepo: NewsFeedRepoImplementation
+    private let newsFeedRepo: NewsFeedRepoImpl
     
     private var filter: String?
     
     //MARK: - Init
-    init(view: NewsFeedViewControllerEmpl, repo: NewsFeedRepoImplementation, coordinator: NewsFeedСoordination) {
+    init(view: NewsFeedViewControllerEmpl, repo: NewsFeedRepoImpl, coordinator: NewsFeedСoordination) {
         self.view = view
         self.newsFeedRepo = repo
         self.coordinator = coordinator
@@ -45,7 +45,7 @@ extension NewsFeedPresenter: NewsFeedViewActions {
     }
     
     func reloadData() {
-        getNewsFromRepo(withFilter: self.filter)
+        getNewsFromRepo(withFilter: self.filter, forse: true)
     }
     
     func filtersButtonTapped() {
@@ -71,9 +71,9 @@ extension NewsFeedPresenter: NewsFeedViewActions {
     
     
     //MARK: - Private metods
-    private func getNewsFromRepo(withFilter filter: String?) {
+    private func getNewsFromRepo(withFilter filter: String?, forse: Bool = false) {
         
-        newsFeedRepo.getNewsFeed(withFilter: filter) { [weak self] result in
+        newsFeedRepo.getNewsFeed(withFilter: filter, forse: forse) { [weak self] result in
             
             guard let `self` = self
                 else { return }
