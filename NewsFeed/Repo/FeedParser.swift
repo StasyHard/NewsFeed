@@ -26,7 +26,7 @@ final class FeedParser: NSObject, FeedParserImpl {
         guard let url = URL(string: urlPath)
             else { return }
         var urlRequest = URLRequest(url: url,
-                                    cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringCacheData)
+                                    cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: 0)
         if !forse {
             urlRequest.timeoutInterval = 15
         }

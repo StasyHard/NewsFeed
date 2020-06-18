@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FiltersView" customModule="NewsFeed" customModuleProvider="target">
             <connections>
                 <outlet property="containerView" destination="iN0-l3-epB" id="VdF-BF-OgQ"/>
+                <outlet property="contentView" destination="zwi-eQ-QZi" id="vGj-B3-s6X"/>
                 <outlet property="filtersTableView" destination="Mma-Me-tdT" id="ZGg-vI-pVY"/>
             </connections>
         </placeholder>
