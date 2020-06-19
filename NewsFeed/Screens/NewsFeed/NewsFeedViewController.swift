@@ -16,7 +16,6 @@ final class NewsFeedViewController: UIViewController {
     //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupNavigation()
         
         if let actionDelegate = actionDelegate {
@@ -30,18 +29,17 @@ final class NewsFeedViewController: UIViewController {
     private func setupNavigation() {
         navigationItem.title = "Новости"
         
-        let defaultImage = UIImage(named: "filter")?
-            .scaleTo(CGSize(width: 25,
-                            height: 25))
+        let filterButtonImg = UIImage(named: "filter")?
+            .scaleTo(CGSize(width: 25, height: 25))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: defaultImage,
+            image: filterButtonImg,
             style: .plain,
             target: self,
             action: #selector(filterButtonTapped))
     }
     
-    @objc func filterButtonTapped() {
+    @objc private func filterButtonTapped() {
         actionDelegate?.filtersButtonTapped()
     }
 }
@@ -49,17 +47,15 @@ final class NewsFeedViewController: UIViewController {
 
 
 //MARK: - NewsFeedViewEmplementation
-extension NewsFeedViewController: NewsFeedViewEmpl {
+extension NewsFeedViewController: NewsFeedViewControllerImpl {
     
     func hideFiltres() {
         filtersView?.hideFiltres()
     }
     
-    
     func showFilters(selectedFilter filter: String?, filters: [String]) {
         filtersView = FiltersView(frame: self.view.frame, actionDelegate: actionDelegate)
         filtersView?.showFilters(selectedFilter: filter, filters: filters)
-        
     }
     
     func showContent(forState state: TableViewState) {

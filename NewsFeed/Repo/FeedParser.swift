@@ -3,7 +3,12 @@ import Foundation
 import Alamofire
 
 
-final class FeedParser: NSObject {
+protocol FeedParserImpl {
+    func parseNews(urlPath: String, forse: Bool, completionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?)
+}
+
+
+final class FeedParser: NSObject, FeedParserImpl {
     
     //MARK: - Private properties
     private var newsItems: [NewsItem] = []
@@ -13,31 +18,42 @@ final class FeedParser: NSObject {
     private var parserComrletionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?
     
     
-    //MARK: - Open metods
-    func parseNews(url: String, completionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?) {
+    //MARK: - FeedParserImpl
+    func parseNews(urlPath: String, forse: Bool, completionHandler: ((Swift.Result<[NewsItem], NetworkResponseError>) -> Void)?)
+    {
         self.parserComrletionHandler = completionHandler
         
-        let urlRequest = URLRequest(url: URL(string: url)!)
-        URLCache.shared.removeCachedResponse(for: urlRequest)
+        guard let url = URL(string: urlPath)
+            else { return }
         
-        Alamofire.request(url).responseData { response in
-            switch response.result {
-                
-            case .success(let data):
-                let parser = XMLParser(data: data)
-                parser.delegate = self
-                parser.parse()
-                
-            case .failure(let error):
-                switch error._code {
-                case NSURLErrorTimedOut:
-                    completionHandler?(.failure(NetworkResponseError.errorTimedOut))
-                case NSURLErrorNotConnectedToInternet:
-                    completionHandler?(.failure(NetworkResponseError.notConnectedToInternet))
-                default:
-                    completionHandler?(.failure(NetworkResponseError.anotherError))
+        var urlRequest = URLRequest(
+            url: url,
+            cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringCacheData,
+            timeoutInterval: 0)
+        
+        if !forse {
+            urlRequest.timeoutInterval = 15
+        }
+        
+        Alamofire.request(urlRequest)
+            .responseData { response in
+                switch response.result {
+                    
+                case .success(let data):
+                    let parser = XMLParser(data: data)
+                    parser.delegate = self
+                    parser.parse()
+                    
+                case .failure(let error):
+                    switch error._code {
+                    case NSURLErrorTimedOut:
+                        completionHandler?(.failure(NetworkResponseError.errorTimedOut))
+                    case NSURLErrorNotConnectedToInternet:
+                        completionHandler?(.failure(NetworkResponseError.notConnectedToInternet))
+                    default:
+                        completionHandler?(.failure(NetworkResponseError.anotherError))
+                    }
                 }
-            }
         }
     }
 }
@@ -54,6 +70,7 @@ extension FeedParser: XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:])
     {
         currentElement = elementName
+        
         if currentElement == "enclosure" {
             let url = attributeDict["url"]
             newsItem.imagePath = url
@@ -68,7 +85,7 @@ extension FeedParser: XMLParserDelegate {
         case "category":
             newsItem.category += string.trimmingCharacters(in: .whitespacesAndNewlines)
         case "yandex:full-text":
-            newsItem.fullText += string//.trimmingCharacters(in: .whitespaces)
+            newsItem.fullText += string.trimmingCharacters(in: .newlines)
         case "pubDate":
             newsItem.pubDate += string.getFormattedDate(currentFomat: "E, d MMM yyyy HH:mm:ss Z",
                                                         expectedFromat: "MM.dd.yyyy HH:mm") ?? ""

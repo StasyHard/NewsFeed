@@ -2,11 +2,17 @@
 import UIKit
 
 
+protocol NewsFeedViewImpl {
+    func setNewsFeedTableViewState(_ state: TableViewState)
+    func setActionDelegate(delegate: NewsFeedViewActions)
+}
+
+
 final class NewsFeedView: UIView {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var newsFeedTableView: UITableView! {
-        didSet{
+        didSet {
             newsFeedTableView.tableFooterView = UIView()
             newsFeedTableView.backgroundColor = AppColors.backgroungColor
             newsFeedTableView.separatorStyle = .none
@@ -48,9 +54,8 @@ final class NewsFeedView: UIView {
     
     
     //MARK: - Private metods
-    @objc func refresh(sender: UIRefreshControl) {
+    @objc private func refresh(sender: UIRefreshControl) {
         actionsDelegate?.reloadData()
-        //sender.endRefreshing()
     }
     
     private func registerCells() {
