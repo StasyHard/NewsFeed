@@ -39,6 +39,13 @@ final class FiltersView: UIView {
         initSubViews()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let window = UIWindow.key {
+            window.layoutSubviews()
+        }
+    }
+    
     
     //MARK: - Open metods
     func showFilters(selectedFilter filter: String?, filters: [String]) {
