@@ -58,6 +58,7 @@ extension FiltersTableViewProvider: FiltersTableViewProviderImpl {
 }
 
 
+
 //MARK: - UITableViewDelegate and UITableViewDataSourse
 extension FiltersTableViewProvider: TableViewProvider {
     
@@ -102,5 +103,4 @@ extension FiltersTableViewProvider: TableViewProvider {
         tableView.reloadRows(at: [oldSelectIndexPath!, selectedIndexPath!], with: .automatic)
         actionsDelegate?.wasSelectedFilter(filter: getSelectedFilter())
     }
-    
 }

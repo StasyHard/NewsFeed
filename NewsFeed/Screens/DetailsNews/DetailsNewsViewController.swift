@@ -16,7 +16,7 @@ class DetailsNewsViewController: UIViewController {
 
 
 //MARK: - DetailsNewsViewEmpl
-extension DetailsNewsViewController: DetailsNewsViewEmpl {
+extension DetailsNewsViewController: DetailsNewsViewImpl {
     
     func showNews(_ news: NewsItem) {
         detailsNewslView?.showNews(news)

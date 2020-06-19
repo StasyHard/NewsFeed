@@ -12,7 +12,7 @@ final class NewsFeedView: UIView {
     
     //MARK: - IBOutlet
     @IBOutlet private weak var newsFeedTableView: UITableView! {
-        didSet{
+        didSet {
             newsFeedTableView.tableFooterView = UIView()
             newsFeedTableView.backgroundColor = AppColors.backgroungColor
             newsFeedTableView.separatorStyle = .none
@@ -56,7 +56,6 @@ final class NewsFeedView: UIView {
     //MARK: - Private metods
     @objc private func refresh(sender: UIRefreshControl) {
         actionsDelegate?.reloadData()
-        //sender.endRefreshing()
     }
     
     private func registerCells() {

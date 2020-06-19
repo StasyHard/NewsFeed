@@ -36,22 +36,16 @@ extension NewsFeedTableViewProvider: TableViewProvider {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let state = tableViewState
-            else { return UITableViewCell() }
-        
-        switch state {
+        switch tableViewState {
         case .success(value: let news):
-            if let cell = tableView
-                .dequeueReusableCell(withIdentifier: NewsFeedCell.reuseId,
-                                     for: indexPath) as? NewsFeedCell
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: NewsFeedCell.reuseId,
+                for: indexPath) as? NewsFeedCell
             {
                 let newsItem = news[indexPath.row]
                 cell.titleNewsLabel.text = newsItem.title
                 cell.categoryLabel.text = newsItem.category
                 cell.pubDateLabel.text = newsItem.pubDate
-                if newsItem.imagePath == nil {
-                    print("ffffff")
-                }
                 
                 return cell
             }
@@ -62,10 +56,7 @@ extension NewsFeedTableViewProvider: TableViewProvider {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let state = tableViewState
-            else { return }
-        
-        switch state {
+        switch tableViewState {
         case .success(value: let news):
             let newsItem = news[indexPath.row]
             actionDelegate?.wasSelectedNews(news: newsItem)

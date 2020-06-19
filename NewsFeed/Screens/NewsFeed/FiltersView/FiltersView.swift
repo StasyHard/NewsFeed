@@ -31,7 +31,6 @@ final class FiltersView: UIView {
         commonInit()
         addTapGesture()
         initSubViews()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -67,8 +66,10 @@ final class FiltersView: UIView {
     }
     
     private func addTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(onClickFiltersView))
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(onClickFiltersView))
+        
         self.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
     }
@@ -87,41 +88,46 @@ final class FiltersView: UIView {
     
     private func animateAppearance() {
         backgroundView.alpha = 0
-        contentView.frame = CGRect(x: 0,
-                                   y: containerView.bounds.height,
-                                   width: contentView.bounds.width,
-                                   height: contentView.bounds.height)
+        contentView.frame = CGRect(
+            x: 0,
+            y: containerView.bounds.height,
+            width: contentView.bounds.width,
+            height: contentView.bounds.height)
         
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       usingSpringWithDamping: 1.0,
-                       initialSpringVelocity: 1.0,
-                       options: .curveEaseInOut,
-                       animations: {
-                        self.backgroundView.alpha = 1
-                        self.contentView.frame = CGRect(x: 0,
-                                                        y: self.containerView.bounds.height - self.contentView.bounds.height,
-                                                        width: self.contentView.bounds.width,
-                                                        height: self.contentView.bounds.height)
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 1.0,
+            options: .curveEaseInOut,
+            animations: {
+                self.backgroundView.alpha = 1
+                self.contentView.frame = CGRect(
+                    x: 0,
+                    y: self.containerView.bounds.height - self.contentView.bounds.height,
+                    width: self.contentView.bounds.width,
+                    height: self.contentView.bounds.height)
         },
-                       completion: nil)
+            completion: nil)
     }
     
     private func animateСlosed() {
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       usingSpringWithDamping: 1.0,
-                       initialSpringVelocity: 1.0,
-                       options: .curveEaseInOut,
-                       animations: {
-                        self.backgroundView.alpha = 0
-                        self.contentView.frame = CGRect(x: 0,
-                                                        y: self.containerView.bounds.height,
-                                                        width: self.contentView.bounds.width,
-                                                        height: self.contentView.bounds.height)
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 1.0,
+            options: .curveEaseInOut,
+            animations: {
+                self.backgroundView.alpha = 0
+                self.contentView.frame = CGRect(
+                    x: 0,
+                    y: self.containerView.bounds.height,
+                    width: self.contentView.bounds.width,
+                    height: self.contentView.bounds.height)
         },
-                       completion: { _ in
-                        self.removeFiltersView()
+            completion: { _ in
+                self.removeFiltersView()
         })
     }
     

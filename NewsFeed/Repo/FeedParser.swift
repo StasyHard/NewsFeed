@@ -25,8 +25,12 @@ final class FeedParser: NSObject, FeedParserImpl {
         
         guard let url = URL(string: urlPath)
             else { return }
-        var urlRequest = URLRequest(url: url,
-                                    cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: 0)
+        
+        var urlRequest = URLRequest(
+            url: url,
+            cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringCacheData,
+            timeoutInterval: 0)
+        
         if !forse {
             urlRequest.timeoutInterval = 15
         }
@@ -66,6 +70,7 @@ extension FeedParser: XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:])
     {
         currentElement = elementName
+        
         if currentElement == "enclosure" {
             let url = attributeDict["url"]
             newsItem.imagePath = url

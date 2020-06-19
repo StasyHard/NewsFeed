@@ -59,12 +59,18 @@ class EmptyView: UIView {
         self.addSubview(descriptionLabel)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.bottomAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        view.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        view.widthAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.bottomAnchor
+            .constraint(equalTo: self.centerYAnchor).isActive = true
+        view.centerXAnchor
+            .constraint(equalTo: self.centerXAnchor).isActive = true
+        view.heightAnchor
+            .constraint(equalToConstant: 50).isActive = true
+        view.widthAnchor
+            .constraint(equalTo: view.heightAnchor).isActive = true
+        
+        
         descriptionLabel.topAnchor
             .constraint(equalTo: view.bottomAnchor).isActive = true
         descriptionLabel.leadingAnchor

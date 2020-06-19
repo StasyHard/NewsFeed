@@ -2,7 +2,7 @@
 import Foundation
 
 
-protocol NewsFeedViewControllerEmpl: class {
+protocol NewsFeedViewControllerImpl: class {
     func showContent(forState state: TableViewState)
     func showFilters(selectedFilter filter: String?, filters: [String])
     func hideFiltres()
@@ -20,14 +20,14 @@ protocol NewsFeedViewActions: class {
 final class NewsFeedPresenter {
     
     //MARK: - Private properties
-    private let view: NewsFeedViewControllerEmpl
+    private weak var view: NewsFeedViewControllerImpl?
     private let coordinator: NewsFeedСoordination
     private let newsFeedRepo: NewsFeedRepoImpl
     
     private var filter: String?
     
     //MARK: - Init
-    init(view: NewsFeedViewControllerEmpl, repo: NewsFeedRepoImpl, coordinator: NewsFeedСoordination) {
+    init(view: NewsFeedViewControllerImpl, repo: NewsFeedRepoImpl, coordinator: NewsFeedСoordination) {
         self.view = view
         self.newsFeedRepo = repo
         self.coordinator = coordinator
@@ -40,7 +40,7 @@ final class NewsFeedPresenter {
 extension NewsFeedPresenter: NewsFeedViewActions {
     
     func viewDidLoad() {
-        view.showContent(forState: .loading)
+        view?.showContent(forState: .loading)
         getNewsFromRepo(withFilter: self.filter)
     }
     
@@ -50,17 +50,17 @@ extension NewsFeedPresenter: NewsFeedViewActions {
     
     func filtersButtonTapped() {
         newsFeedRepo.getCategories { [weak self] categories in
-            self?.view.showFilters(selectedFilter: self?.filter,
+            self?.view?.showFilters(selectedFilter: self?.filter,
                                    filters: categories)
         }
     }
     
     func wasSelectedFilter(filter: String?) {
-        view.hideFiltres()
+        view?.hideFiltres()
         
         if filter != self.filter {
             self.filter = filter
-            view.showContent(forState: .loading)
+            view?.showContent(forState: .loading)
             getNewsFromRepo(withFilter: filter)
         }
     }
@@ -85,9 +85,9 @@ extension NewsFeedPresenter: NewsFeedViewActions {
                         print("")
                     }
                 }
-                self.view.showContent(forState: .success(value: news))
+                self.view?.showContent(forState: .success(value: news))
             case .failure(let error):
-                self.view.showContent(forState: .failed(state: error))
+                self.view?.showContent(forState: .failed(state: error))
             }
         }
     }

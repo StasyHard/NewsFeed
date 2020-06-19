@@ -1,7 +1,7 @@
 
 import Foundation
 
-protocol DetailsNewsViewEmpl: class {
+protocol DetailsNewsViewImpl: class {
     func showNews(_ news: NewsItem)
 }
 
@@ -13,11 +13,11 @@ protocol DetailsNewsViewActions: class {
 final class DetailsNewsPresenter {
     
     //MARK: - Private properties
-    private let view: DetailsNewsViewEmpl
+    private weak var view: DetailsNewsViewImpl?
     
     
     //MARK: - Init
-    init(view: DetailsNewsViewEmpl, news: NewsItem) {
+    init(view: DetailsNewsViewImpl, news: NewsItem) {
         self.view = view
         view.showNews(news)
     }
